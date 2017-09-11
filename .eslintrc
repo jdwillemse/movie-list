@@ -1,0 +1,190 @@
+{
+  "root": true,
+  "plugins": [
+    "react",
+  ],
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "airbnb",
+  ],
+  "ecmaVersion": 7,
+  "ecmaFeatures": {
+    "jsx": true
+  },
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/no-did-mount-set-state": 0,
+    "react/no-did-update-set-state": 0,
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "max-len": [
+      "error",
+      2000
+    ],
+    "no-alert": 2,
+    "no-array-constructor": 2,
+    "no-caller": 2,
+    "no-catch-shadow": 2,
+    "no-eval": 2,
+    "require-jsdoc": 0,
+    "valid-jsdoc": [2, {
+      "requireParamDescription": false,
+      "requireReturn": false,
+      "requireReturnDescription": false,
+      "prefer": {
+        "return": "returns"
+      }
+    }],
+    "no-extend-native": 2,
+    "no-extra-bind": 2,
+    "no-implied-eval": 2,
+    "no-iterator": 2,
+    "no-label-var": 2,
+    "no-labels": 2,
+    "no-lone-blocks": 2,
+    "no-loop-func": 2,
+    "no-multi-spaces": 2,
+    "no-multi-str": 2,
+    "no-native-reassign": 2,
+    "no-new": 2,
+    "no-new-func": 2,
+    "no-new-object": 2,
+    "no-new-wrappers": 2,
+    "no-octal-escape": 2,
+    "no-plusplus": 0,
+    "no-process-exit": 2,
+    "no-proto": 2,
+    "no-return-assign": 0,
+    "no-script-url": 2,
+    "no-sequences": 2,
+    "no-shadow": 2,
+    "no-shadow-restricted-names": 2,
+    "no-spaced-func": 2,
+    "no-trailing-spaces": 2,
+    "no-undef-init": 2,
+    "no-unused-expressions": 2,
+    "no-use-before-define": 2,
+    "no-with": 2,
+    "camelcase": 2,
+    "comma-spacing": 2,
+    "comma-dangle": 0,
+    "consistent-return": 2,
+    "curly": [
+      2,
+      "all"
+    ],
+    "dot-notation": [
+      2,
+      {
+        "allowKeywords": true
+      }
+    ],
+    "eol-last": 2,
+    "no-extra-parens": [
+      2,
+      "functions"
+    ],
+    "guard-for-in": 0,
+    "eqeqeq": 2,
+    "key-spacing": [
+      2,
+      {
+        "beforeColon": false,
+        "afterColon": true
+      }
+    ],
+    "new-cap": 2,
+    "new-parens": 2,
+    "quotes": [
+      2,
+      "single"
+    ],
+    "semi": 2,
+    "no-mixed-spaces-and-tabs": 0,
+    "semi-spacing": [
+      2,
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "space-before-function-paren": [
+      "error",
+      "always"
+    ],
+    "space-infix-ops": 2,
+    "space-unary-ops": [
+      2,
+      {
+        "words": true,
+        "nonwords": false
+      }
+    ],
+    "strict": [
+      2,
+      "function"
+    ],
+    "yoda": [
+      2,
+      "never"
+    ],
+    "arrow-parens": [
+      "error",
+      "always"
+    ],
+    "arrow-spacing": [
+      "error",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "keyword-spacing": [
+      "error",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "jsx-quotes": [
+      "error",
+      "prefer-single"
+    ],
+    "one-var": [
+      "off"
+    ],
+    "react/forbid-prop-types": [2, { "forbid": ['any'] }]
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "blockBindings": true
+    }
+  },
+  "globals": {
+    "__REDUX_STATE__": true,
+    "document": true,
+    "setTimeout": true,
+    "clearTimeout": true,
+    "location": true,
+    "devToolsExtension": true,
+    "module": true,
+    "require": true,
+    "console": true,
+    "exports": true,
+    "process": true,
+    "__dirname": true,
+    "fs": true,
+    "navigator": true,
+    "Symbol": true
+  }
+}
