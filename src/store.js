@@ -1,31 +1,34 @@
-import { createStore, applyMiddleware, compose } from 'redux'
-import reducers from './reducers'
-//import createLogger from 'redux-logger'
-//import createSagaMiddleware from 'redux-saga'
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 
-//const logger = createLogger()
-//const sagaMiddleware = createSagaMiddleware()
+import reducers from './reducers';
+// import createLogger from 'redux-logger'
+// import createSagaMiddleware from 'redux-saga'
 
-export default function configureStore(initialState = {}) {
+// const logger = createLogger()
+// const sagaMiddleware = createSagaMiddleware()
+
+export default function configureStore (initialState = {}) {
   // Create the store with two middlewares
   const middlewares = [
+    thunk,
   //  sagaMiddleware
   //, logger
-  ]
+  ];
 
   const enhancers = [
     applyMiddleware(...middlewares)
-  ]
+  ];
 
   const store = createStore(
     reducers
   , initialState
   , compose(...enhancers)
-  )
+  );
 
   // Extensions
-  //store.runSaga = sagaMiddleware.run
-  store.asyncReducers = {} // Async reducer registry
+  // store.runSaga = sagaMiddleware.run
+  store.asyncReducers = {}; // Async reducer registry
 
-  return store
+  return store;
 }

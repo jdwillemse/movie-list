@@ -161,7 +161,8 @@
     "one-var": [
       "off"
     ],
-    "react/forbid-prop-types": [2, { "forbid": ['any'] }]
+    "react/forbid-prop-types": [2, { "forbid": ['any'] }],
+    jsx-a11y/href-no-hash: 1
   },
   "parserOptions": {
     "sourceType": "module",
