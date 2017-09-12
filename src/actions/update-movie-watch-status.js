@@ -1,49 +1,46 @@
 import databaseInstance from './firebase';
-import { GET, SUCCESS, FAIL } from '../types/firebase';
-// import staticData from '../data-structure';
+// import { SET, SUCCESS, FAIL } from '../types/update-movie-watch-status';
+import { SET } from '../types/update-movie-watch-status';
 
-// export function set (payload) {
+// function updateMovieWatchStatusSuccess (payload) {
 //   return {
-//     type: SET,
-//     payload
+//     type: SUCCESS,
+//     payload,
 //   };
 // }
 
-function getMovieListSuccess (payload) {
-  return {
-    type: SUCCESS,
-    payload,
+// function updateMovieWatchStatusFail (error) {
+//   return {
+//     type: FAIL,
+//     error,
+//   };
+// }
+
+const updateMovieWatchStatus = ({ movieId, status }) => function (dispatch) {
+  console.log('updateMovieWatchStatus', movieId, status);
+  // databaseInstance.on('value', (snapshot) => {
+  //   const movieListData = snapshot.val();
+  //   // TODO: handle error response
+  //   if (movieListData) {
+  //     dispatch(updateMovieWatchStatusSuccess(movieListData));
+  //   } else {
+  //     dispatch(updateMovieWatchStatusFail('No content was returned from the database'));
+  //   }
+  // });
+
+  const newData = {
+    [`${movieId}/isWatched`]: status,
   };
-}
 
-function getMovieListFail (error) {
-  return {
-    type: FAIL,
-    error,
-  };
-}
-
-const getMovieList = () => function (dispatch) {
-    // staticData.map(item => {
-    //   fire.database().ref('movies').push( item );
-    // })
-
-  databaseInstance.on('value', (snapshot) => {
-    const movieListData = snapshot.val();
-    // TODO: handle error response
-    if (movieListData) {
-      dispatch(getMovieListSuccess(movieListData));
-    } else {
-      dispatch(getMovieListFail('No content was returned from the database'));
-    }
-  });
+  databaseInstance.update(newData);
 
   return dispatch({
-    type: GET,
+    type: SET,
   });
 };
 
-export default getMovieList;
+
+export default updateMovieWatchStatus;
 
 // export const watchMovieList = () => function () {
 //   return function (dispatch) {

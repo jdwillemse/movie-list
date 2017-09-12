@@ -1,22 +1,45 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 // import './App.css'
 
 // eslint-disable-next-line react/prefer-stateless-function
-class NoMatch extends Component {
+class ListItem extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+  }
+
+  handleChange () {
+    const movieProps = {
+      status: !this.props.data.isWatched,
+      movieId: this.props.data.id,
+    };
+    console.log(movieProps);
+    // fire db updte
+    this.props.onChange(movieProps);
   }
 
   render () {
+    const { data } = this.props;
+
     return (
-      <div key={this.props.data.imdbID}>
-        <p>{this.props.data.Title} – {this.props.data.Year}</p>
+      <div
+        className='list__item'
+        onDoubleClick={(event) => this.handleChange(event)}
+      >
+        <p>
+          {data.isWatched || <span className='item__status'>unseen </span>}
+          {data.Title} – {data.Year}
+          <Link to={`/id/${data.id}`}>
+          more…
+          </Link>
+        </p>
       </div>
     );
   }
 }
 
-export default NoMatch;
+export default ListItem;
 

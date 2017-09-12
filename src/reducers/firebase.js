@@ -3,11 +3,12 @@ import { GET, SUCCESS, FAIL } from '../types/firebase';
 const initialState = {
   loading: false,
   error: '',
-  payload: {},
+  payload: [],
 };
 
 export default function reducer (state = initialState, action) {
   console.log(action);
+
   switch (action.type) {
     // case SET:
     //   return {
@@ -22,13 +23,16 @@ export default function reducer (state = initialState, action) {
         error: '',
       };
 
-    case SUCCESS:
+    case SUCCESS: {
+      const modifiedData = Object.keys(action.payload).map((key) => Object.assign({}, action.payload[key], { id: key }));
+
       return {
         ...state,
         loading: false,
         error: '',
-        payload: action.payload,
+        payload: modifiedData,
       };
+    }
 
     case FAIL:
       return {
