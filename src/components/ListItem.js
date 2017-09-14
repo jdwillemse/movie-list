@@ -16,7 +16,7 @@ class ListItem extends Component {
       status: !this.props.data.isWatched,
       movieId: this.props.data.id,
     };
-    console.log(movieProps);
+    // console.log(movieProps);
     // fire db updte
     this.props.onChange(movieProps);
   }

@@ -1,43 +1,57 @@
-const path = require('path')
-const fs = require('fs')
+const path = require('path');
+const fs = require('fs');
 
-const React = require('react')
-const {Provider} = require('react-redux')
-const {renderToString} = require('react-dom/server')
-const {StaticRouter} = require('react-router-dom')
+const React = require('react');
+const { Provider } = require('react-redux');
+const { renderToString } = require('react-dom/server');
+const { StaticRouter } = require('react-router-dom');
 
-const {default: configureStore} = require('../src/store')
-const {default: App} = require('../src/containers/App')
+const { default: configureStore } = require('../src/store');
+const { default: App } = require('../src/containers/App');
 
-module.exports = function universalLoader(req, res) {
-  const filePath = path.resolve(__dirname, '..', 'build', 'index.html')
+let manifest = {};
+const filePath = path.resolve(__dirname, '../build', 'asset-manifest.json');
+fs.readFile(filePath, 'utf8', (err, htmlData) => {
+  if (err) {
+    console.error('read err', err);
+    return;
+  }
 
-  fs.readFile(filePath, 'utf8', (err, htmlData)=>{
-    if (err) {
-      console.error('read err', err)
-      return res.status(404).end()
-    }
-    const context = {}
-    const store = configureStore()
-    const markup = renderToString(
-      <Provider store={store}>
-        <StaticRouter
-          location={req.url}
-          context={context}
-        >
-          <App/>
-        </StaticRouter>
-      </Provider>
-    )
+  try {
+    manifest = JSON.parse(htmlData);
+  } catch (error) {
+    console.error('Manifest file is not in JSON format');
+  }
+});
 
-    if (context.url) {
-      // Somewhere a `<Redirect>` was rendered
-      redirect(301, context.url)
-    } else {
-      // we're good, send the response
-      const RenderedApp = htmlData.replace('{{SSR}}', markup)
-      res.send(RenderedApp)
-    }
-  })
-}
+module.exports = function universalLoader (req, res) {
+  let status = 200;
+  const context = {};
+  const store = configureStore();
+  const markup = renderToString(
+    <Provider store={store}>
+      <StaticRouter
+        location={req.url}
+        context={context}
+      >
+        <App />
+      </StaticRouter>
+    </Provider>
+    );
+
+    // context.url will contain the URL to redirect to if a <Redirect> was used
+  if (context.url) {
+    return res.redirect(302, context.url);
+  }
+
+  if (context.is404) {
+    status = 404;
+  }
+
+  return res.status(status).render('index', {
+    markup,
+    manifest,
+    state: JSON.stringify(store.getState()),
+  });
+};
 

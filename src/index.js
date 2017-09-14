@@ -1,16 +1,19 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+// import { renderRoutes } from 'react-router-config';
 
-import configureStore from './store'
-import './index.css'
-import App from './containers/App'
-import registerServiceWorker from './registerServiceWorker'
+import configureStore from './store';
+import App from './containers/App';
+import registerServiceWorker from './registerServiceWorker';
+// import routes from './routes';
+import './index.css';
 
-// Let the reducers handle initial state
-const initialState = {}
-const store = configureStore(initialState)
+// Initial state is created on the server
+// eslint-disable-next-line no-underscore-dangle
+const initialState = window.__REDUX_STATE__;
+const store = configureStore(initialState);
 
 ReactDOM.render(
   <Provider store={store}>
@@ -19,5 +22,18 @@ ReactDOM.render(
     </BrowserRouter>
   </Provider>
 , document.getElementById('root')
-)
-registerServiceWorker()
+);
+
+// const AppRouter = () => {
+//   return (
+//     <Provider store={store}>
+//       <BrowserRouter>
+//         {renderRoutes(routes)}
+//       </BrowserRouter>
+//     </Provider>
+//   )
+// }
+
+// ReactDOM.render(<AppRouter />, document.querySelector('#root'));
+
+registerServiceWorker();

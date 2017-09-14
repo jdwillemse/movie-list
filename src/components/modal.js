@@ -38,7 +38,7 @@ class Modal extends Component {
     const { movieListData } = this.props;
     const movieData = movieListData.find((item) => item.id === id);
 
-    console.log('movieData', movieData);
+    // console.log('movieData', movieData);
 
     /* eslint-disable-next-line react/prefer-stateless-function */
     return movieData ? (
