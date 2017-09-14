@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { bindActionCreators } from 'redux';
 // import { Link } from 'react-router-dom';
 
 import ListItem from '../components/ListItem';
 import getMovieList from '../actions/get-movie-list';
 import updateMovieWatchStatus from '../actions/update-movie-watch-status';
 
-class FirstPage extends Component {
+class MovieList extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     movieListData: PropTypes.array.isRequired,
@@ -41,7 +40,13 @@ class FirstPage extends Component {
       <div className='list'>
         <div className='list__wrapper'>
           {this.props.firebase.loading && <p>Loading…</p>}
-          {movieListData && movieListData.map((item) => <ListItem data={item} onChange={this.handleChange} key={item.id} />)}
+          {movieListData && movieListData.map((item) =>
+            (<ListItem
+              key={item.id}
+              data={item}
+              onChange={this.handleChange}
+            />)
+          )}
         </div>
       </div>
     );
@@ -53,4 +58,4 @@ const mapStateToProps = (state) => ({
   movieListData: state.firebase.payload,
 });
 
-export default connect(mapStateToProps)(FirstPage);
+export default connect(mapStateToProps)(MovieList);

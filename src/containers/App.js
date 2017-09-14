@@ -12,7 +12,10 @@ export default class App extends Component {
   render () {
     return (
       <div>
-        <h1>Movie libraary</h1>
+        <div className='intro'>
+          <h1 className='intro__title'>Movie library</h1>
+          <p className='intro__help-text'>Double click movie to mark it as watched.</p>
+        </div>
         <Switch>
           <Route path='/' component={MovieList} />
           <Route component={NoMatch} />

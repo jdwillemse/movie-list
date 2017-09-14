@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import './modal.css';
-
-
 // eslint-disable-next-line react/prefer-stateless-function
 class Modal extends Component {
   static propTypes = {
@@ -17,21 +14,56 @@ class Modal extends Component {
     movieListData: PropTypes.array.isRequired,
   }
 
+  componentDidMount () {
+    this.keyListener = this.keyListener.bind(this);
+    document.body.addEventListener('keyup', this.keyListener);
+  }
+
+  componentWillUnmount () {
+    document.body.removeEventListener('keyup', this.keyListener);
+  }
+
+  keyListener (event) {
+    if (event.keyCode === 27) {
+      this.closeModal();
+    }
+  }
+
+  closeModal () {
+    this.props.history.push('/');
+  }
+
   render () {
     const { id } = this.props.match.params;
     const { movieListData } = this.props;
     const movieData = movieListData.find((item) => item.id === id);
 
-    console.log('this.props.history', this.props.history);
+    console.log('movieData', movieData);
 
+    /* eslint-disable-next-line react/prefer-stateless-function */
     return movieData ? (
-      <article className='modal'>
+      <article
+        className='modal'
+        onClick={() => this.closeModal()}
+      >
         <div className='modal__wrap'>
-          <button onClick={() => this.props.history.push('/')}>Close</button>
-          <div>
-            <h1>{movieData.Title}</h1>
-            <img src={movieData.Poster} alt={`Movie poster for ${movieData.Title}`} />
-            <p>{movieData.Plot}</p>
+          <button
+            className='modal__close'
+            onClick={() => this.closeModal()}
+          >
+            <span>Close</span>
+          </button>
+          <div className='modal__content'>
+            <img
+              src={movieData.Poster}
+              alt={`Movie poster for ${movieData.Title}`}
+              className='modal__image'
+            />
+            <div className='modal__copy'>
+              <h1>{movieData.Title}</h1>
+              <p>{movieData.Director} – {movieData.Year} – {movieData.Runtime}</p>
+              <p>{movieData.Plot}</p>
+            </div>
           </div>
         </div>
       </article>

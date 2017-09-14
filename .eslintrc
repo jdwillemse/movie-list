@@ -162,7 +162,8 @@
       "off"
     ],
     "react/forbid-prop-types": [2, { "forbid": ['any'] }],
-    jsx-a11y/href-no-hash: 0
+    jsx-a11y/href-no-hash: 0,
+    jsx-a11y/no-noninteractive-element-interactions: 1
   },
   "parserOptions": {
     "sourceType": "module",

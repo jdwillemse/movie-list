@@ -24,10 +24,6 @@ function getMovieListFail (error) {
 }
 
 const getMovieList = () => function (dispatch) {
-    // staticData.map(item => {
-    //   fire.database().ref('movies').push( item );
-    // })
-
   databaseInstance.on('value', (snapshot) => {
     const movieListData = snapshot.val();
     // TODO: handle error response

@@ -29,13 +29,18 @@ class ListItem extends Component {
         className='list__item'
         onDoubleClick={(event) => this.handleChange(event)}
       >
-        <p>
-          {data.isWatched || <span className='item__status'>unseen </span>}
-          {data.Title} – {data.Year}
-          <Link to={`/id/${data.id}`}>
-          more…
+        {data.isWatched || <span className='item__status'>●</span>}
+        <div className='item__header'>
+          <Link to={`/id/${data.id}`} className='item__section item__section--no-truncate item__title'>
+            {data.Title}
           </Link>
-        </p>
+          <span className='item__section item__section--no-truncate'>
+            {data.Year}
+          </span>
+        </div>
+        <span className='item__section'>
+          {data.Plot}
+        </span>
       </div>
     );
   }
