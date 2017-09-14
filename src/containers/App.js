@@ -15,6 +15,9 @@ export default class App extends Component {
         <div className='intro'>
           <h1 className='intro__title'>Movie library</h1>
           <p className='intro__help-text'>Double click movie to mark it as watched.</p>
+          <noscript>
+            <p className='noscript__warning'>Without javascript enabled you wont see any content.</p>
+          </noscript>
         </div>
         <Switch>
           <Route path='/' component={MovieList} />
