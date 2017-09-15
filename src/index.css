@@ -70,6 +70,10 @@ a {
   cursor: pointer;
 }
 
+.list__item:focus {
+  outline: 2px solid red;
+}
+
 .list__item:hover {
   background: rgba(255, 255, 255, .45);
 }
@@ -104,12 +108,20 @@ a {
   top: 8px;
   width: 20px;
   height: 20px;
-  font-weight: bold;
-  /*color: #000;*/
+  padding: 0;
+  border: none;
   border-radius: 50%;
+  font-weight: bold;
   background: #ff0;
+  box-sizing: content-box;
   transform: scale(0.5);
   transition: transform 0.2s ease-out;
+}
+
+.item__status:focus {
+  outline: none;
+  border: 4px solid red;
+  margin: -4px;
 }
 
 .item__status:hover {

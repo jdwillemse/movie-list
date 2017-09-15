@@ -3,48 +3,37 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 // import { Link } from 'react-router-dom';
 
+import Loader from '../components/loader';
+import Error from '../components/error';
 import ListItem from '../components/ListItem';
-import { getMovieList, updateMovieWatchStatus } from '../ducks/firebase';
+import { getMovieList } from '../ducks/firebase';
 
 class MovieList extends Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.string.isRequired,
     movieListData: PropTypes.array.isRequired,
-    firebase: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      error: PropTypes.string.isRequired,
-    }).isRequired,
+    dispatch: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
   componentWillMount() {
-    // console.log('this.props.dispatch', this.props.dispatch);
     this.props.dispatch(getMovieList());
-    // this.props.dispatch(watchMovieList());
-  }
-
-  handleChange(movieProps) {
-    this.props.dispatch(updateMovieWatchStatus(movieProps));
   }
 
   render() {
-    const { movieListData } = this.props;
+    const { loading, error, movieListData } = this.props;
 
     return (
       <div className="list">
         <div className="list__wrapper">
-          {this.props.firebase.loading && <p>Loading…</p>}
+          <Loader loading={loading} />
+          <Error message={error} />
           {movieListData &&
             movieListData.map(item => (
               <ListItem
                 key={item.id}
                 data={item}
-                onChange={this.handleChange}
+                dispatch={this.props.dispatch}
               />
             ))}
         </div>
@@ -55,7 +44,9 @@ class MovieList extends Component {
 
 const mapStateToProps = state => ({
   firebase: state.firebase,
-  movieListData: state.firebase.payload,
+  loading: state.firebase.loading,
+  error: state.firebase.error,
+  movieListData: state.firebase.movies,
 });
 
 export default connect(mapStateToProps)(MovieList);

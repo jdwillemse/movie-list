@@ -16,13 +16,14 @@ const prefix = 'FIREBASE/';
 const SET = `${prefix}SET`;
 const GET = `${prefix}GET`;
 const SUCCESS = `${prefix}SUCCESS`;
+const SET_SUCCESS = `${prefix}SET_SUCCESS`;
 const FAIL = `${prefix}FAIL`;
 
 // Reducer
 const initialState = {
-  loading: false,
+  loading: true,
   error: '',
-  payload: [],
+  movies: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -34,16 +35,26 @@ export default function reducer(state = initialState, action) {
         ...initialState,
       };
 
-    case SUCCESS: {
-      const modifiedData = Object.keys(action.payload).map(key =>
-        Object.assign({}, action.payload[key], { id: key })
-      );
-
+    case SUCCESS:
       return {
         ...state,
         loading: false,
         error: '',
-        payload: modifiedData,
+        movies: action.payload,
+      };
+
+    case SET_SUCCESS: {
+      const movies = state.movies.map(
+        item =>
+          item.id === action.payload.movieId
+            ? Object.assign({}, item, { isWatched: action.payload.status })
+            : item
+      );
+      return {
+        ...state,
+        loading: false,
+        error: '',
+        movies,
       };
     }
 
@@ -60,50 +71,34 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action creators
-function getMovieListSuccess(payload) {
-  return {
-    type: SUCCESS,
-    payload,
-  };
-}
-
-function getMovieListFail(error) {
-  return {
-    type: FAIL,
-    error,
-  };
-}
-
 export function getMovieList() {
-  return dispatch => {
-    databaseInstance.on('value', snapshot => {
-      const movieListData = snapshot.val();
-      // TODO: handle error response
-      if (movieListData) {
-        dispatch(getMovieListSuccess(movieListData));
-      } else {
-        dispatch(getMovieListFail('No content was returned from the database'));
-      }
-    });
+  const promise = databaseInstance
+    .once('value')
+    .then(snapshot => snapshot.val())
+    .then(data =>
+      Object.keys(data).map(key => Object.assign({}, data[key], { id: key }))
+    );
 
-    return dispatch({
-      type: GET,
-    });
+  return {
+    types: [GET, SUCCESS, FAIL],
+    promise,
   };
 }
 
 export function updateMovieWatchStatus({ movieId, status }) {
   return dispatch => {
-    console.log('updateMovieWatchStatus', movieId, status);
-
-    const newData = {
+    const updatedData = {
       [`${movieId}/isWatched`]: status,
     };
 
-    databaseInstance.update(newData);
+    const promise = databaseInstance.update(updatedData).then(() => ({
+      movieId,
+      status,
+    }));
 
     return dispatch({
-      type: SET,
+      types: [SET, SET_SUCCESS, FAIL],
+      promise,
     });
   };
 }
