@@ -9,9 +9,9 @@ export const RESET = `${prefix}RESET`;
 
 // Reducer
 const initialState = {
-  loading: false,
+  loading: true,
   error: '',
-  movie: {},
+  payload: null,
 };
 
 export default function reducer(state = initialState, action) {
