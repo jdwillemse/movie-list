@@ -8,23 +8,35 @@ import reducers from './reducers';
 // const logger = createLogger()
 // const sagaMiddleware = createSagaMiddleware()
 
-export default function configureStore (initialState = {}) {
+// Middleware for reducing boilerplate when using async actions
+function promiseMiddleware() {
+  return next => action => {
+    const { promise, types, ...rest } = action;
+    if (!promise) {
+      return next(action);
+    }
+
+    const [REQUEST, SUCCESS, FAILURE] = types;
+    next({ ...rest, type: REQUEST });
+    return promise.then(
+      payload => next({ ...rest, payload, type: SUCCESS }),
+      error => next({ ...rest, error, type: FAILURE })
+    );
+  };
+}
+
+export default function configureStore(initialState = {}) {
   // Create the store with two middlewares
   const middlewares = [
     thunk,
-  //  sagaMiddleware
-  //, logger
+    promiseMiddleware,
+    //  sagaMiddleware
+    // , logger
   ];
 
-  const enhancers = [
-    applyMiddleware(...middlewares)
-  ];
+  const enhancers = [applyMiddleware(...middlewares)];
 
-  const store = createStore(
-    reducers
-  , initialState
-  , compose(...enhancers)
-  );
+  const store = createStore(reducers, initialState, compose(...enhancers));
 
   // Extensions
   // store.runSaga = sagaMiddleware.run

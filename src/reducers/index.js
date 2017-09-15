@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import user from './user';
 import firebase from './firebase';
+import movie from '../ducks/movie';
 
 export default combineReducers({
-  user,
   firebase,
+  movie,
 });

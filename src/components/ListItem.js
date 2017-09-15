@@ -9,9 +9,9 @@ class ListItem extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
-  }
+  };
 
-  handleChange () {
+  handleChange() {
     const movieProps = {
       status: !this.props.data.isWatched,
       movieId: this.props.data.id,
@@ -21,30 +21,30 @@ class ListItem extends Component {
     this.props.onChange(movieProps);
   }
 
-  render () {
+  render() {
     const { data } = this.props;
 
     return (
       <div
-        className='list__item'
-        onDoubleClick={(event) => this.handleChange(event)}
+        className="list__item"
+        onDoubleClick={event => this.handleChange(event)}
       >
-        {data.isWatched || <span className='item__status'>●</span>}
-        <div className='item__header'>
-          <Link to={`/id/${data.id}`} className='item__section item__section--no-truncate item__title'>
+        {data.isWatched || <span className="item__status">●</span>}
+        <div className="item__header">
+          <Link
+            to={`/id/${data.imdbID}`}
+            className="item__section item__section--no-truncate item__title"
+          >
             {data.Title}
           </Link>
-          <span className='item__section item__section--no-truncate'>
+          <span className="item__section item__section--no-truncate">
             {data.Year}
           </span>
         </div>
-        <span className='item__section'>
-          {data.Plot}
-        </span>
+        <span className="item__section">{data.Plot}</span>
       </div>
     );
   }
 }
 
 export default ListItem;
-
