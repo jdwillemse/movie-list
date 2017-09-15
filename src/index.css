@@ -23,7 +23,7 @@ a {
   position: relative;
   color: inherit;
   text-decoration: none;
-  border-bottom: 2px solid;
+  /*border-bottom: 2px solid;*/
 }
 
 .intro {
@@ -63,9 +63,28 @@ a {
   display: flex;
   flex-direction: row;
   margin: 2px;
-  padding: 8px 12px;
-  background: rgba(255, 255, 255, .25);
+  padding: 8px 4px;
   color: #fff;
+  background: rgba(255, 255, 255, .1);
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+.list__item:hover {
+  background: rgba(255, 255, 255, .45);
+}
+
+.list__item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -25px;
+  height: 100%;
+  width: 25px;
+}
+
+.list__item--unwatched {
+  background: rgba(255, 255, 255, .25);
 }
 
 .item__section {
@@ -81,11 +100,48 @@ a {
 
 .item__status {
   position: absolute;
-  left: 5px;
-  top: 50%;
-  transform: translate(0, -50%);
+  left: -25px;
+  top: 8px;
+  width: 20px;
+  height: 20px;
   font-weight: bold;
   /*color: #000;*/
+  border-radius: 50%;
+  background: #ff0;
+  transform: scale(0.5);
+  transition: transform 0.2s ease-out;
+}
+
+.item__status:hover {
+  font-size: 14px;
+  transform: scale(1);
+  opacity: 1 !important;
+}
+
+.item__status span {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  color: #2d83ed;
+  opacity: 0;
+  /*transition: opacity 0.3s;*/
+}
+
+.item__status:hover span {
+  opacity: 1;
+}
+
+.item__status--watched {
+  opacity: 0;
+}
+
+.list__item--watched:hover .item__status {
+  opacity: 0.5;
+}
+
+.list__item--watched:hover .item__status span{
+  opacity: 0;
 }
 
 .modal {
@@ -151,7 +207,7 @@ a {
   }
 
   .list__wrapper {
-    margin: 20px 40px 40px;
+    margin: 20px 20px 40px 70px;
   }
 
   .modal__content {

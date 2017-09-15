@@ -26,10 +26,18 @@ class ListItem extends Component {
 
     return (
       <div
-        className="list__item"
+        className={`list__item ${data.isWatched
+          ? 'list__item--watched'
+          : 'list__item--unwatched'}`}
         onDoubleClick={event => this.handleChange(event)}
       >
-        {data.isWatched || <span className="item__status">●</span>}
+        <span
+          className={`item__status ${data.isWatched
+            ? 'item__status--watched'
+            : 'item__status--unwatched'}`}
+        >
+          <span>✔</span>
+        </span>
         <div className="item__header">
           <Link
             to={`/id/${data.imdbID}`}
