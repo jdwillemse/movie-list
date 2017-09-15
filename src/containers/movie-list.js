@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 // import { Link } from 'react-router-dom';
 
 import ListItem from '../components/ListItem';
-import getMovieList from '../actions/get-movie-list';
-import updateMovieWatchStatus from '../actions/update-movie-watch-status';
+import { getMovieList, updateMovieWatchStatus } from '../ducks/firebase';
 
 class MovieList extends Component {
   static propTypes = {
@@ -15,45 +14,46 @@ class MovieList extends Component {
       loading: PropTypes.bool.isRequired,
       error: PropTypes.string.isRequired,
     }).isRequired,
-  }
+  };
 
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentWillMount () {
+  componentWillMount() {
     // console.log('this.props.dispatch', this.props.dispatch);
     this.props.dispatch(getMovieList());
     // this.props.dispatch(watchMovieList());
   }
 
-  handleChange (movieProps) {
+  handleChange(movieProps) {
     this.props.dispatch(updateMovieWatchStatus(movieProps));
   }
 
-  render () {
+  render() {
     const { movieListData } = this.props;
 
     return (
-      <div className='list'>
-        <div className='list__wrapper'>
+      <div className="list">
+        <div className="list__wrapper">
           {this.props.firebase.loading && <p>Loading…</p>}
-          {movieListData && movieListData.map((item) =>
-            (<ListItem
-              key={item.id}
-              data={item}
-              onChange={this.handleChange}
-            />)
-          )}
+          {movieListData &&
+            movieListData.map(item => (
+              <ListItem
+                key={item.id}
+                data={item}
+                onChange={this.handleChange}
+              />
+            ))}
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   firebase: state.firebase,
   movieListData: state.firebase.payload,
 });

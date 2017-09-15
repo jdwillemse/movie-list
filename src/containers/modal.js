@@ -72,6 +72,11 @@ class Modal extends Component {
                     {movieData.Runtime}
                   </p>
                   <p>{movieData.Plot}</p>
+                  {movieData.Ratings.map(rating => (
+                    <div>
+                      {rating.Source}: {rating.Value}
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
