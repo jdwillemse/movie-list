@@ -21,10 +21,16 @@ const FAIL = `${prefix}FAIL`;
 
 // Reducer
 const initialState = {
-  loading: true,
+  loading: false,
   error: '',
   movies: [],
 };
+
+function updateMovieWatchedStatus(item, { movieId, status }) {
+  return item.id === movieId
+    ? Object.assign({}, item, { isWatched: status })
+    : item;
+}
 
 export default function reducer(state = initialState, action) {
   console.log(action.type);
@@ -44,11 +50,8 @@ export default function reducer(state = initialState, action) {
       };
 
     case SET_SUCCESS: {
-      const movies = state.movies.map(
-        item =>
-          item.id === action.payload.movieId
-            ? Object.assign({}, item, { isWatched: action.payload.status })
-            : item
+      const movies = state.movies.map(item =>
+        updateMovieWatchedStatus(item, action.payload)
       );
       return {
         ...state,

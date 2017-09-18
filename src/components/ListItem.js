@@ -23,7 +23,7 @@ class ListItem extends Component {
       >
         <StatusToggle
           id={data.id}
-          isWatched={data.isWatched}
+          isWatched={!!data.isWatched}
           dispatch={this.props.dispatch}
         />
         <div className="item__header">

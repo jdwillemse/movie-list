@@ -9,6 +9,24 @@ import NoMatch from '../components/NoMatch';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export default class App extends Component {
+  static focusOutlineToggle(event) {
+    if (event.keyCode === 9) {
+      document.body.classList.add('show-focus');
+    } else if (event.type === 'click') {
+      document.body.classList.remove('show-focus');
+    }
+  }
+
+  componentDidMount() {
+    document.body.addEventListener('keyup', App.focusOutlineToggle);
+    document.body.addEventListener('click', App.focusOutlineToggle);
+  }
+
+  componentWillUnmount() {
+    document.body.removeEventListener('keyup', App.focusOutlineToggle);
+    document.body.removeEventListener('click', App.focusOutlineToggle);
+  }
+
   render() {
     return (
       <div>

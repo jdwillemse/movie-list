@@ -1,42 +1,47 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { updateMovieWatchStatus } from '../ducks/firebase';
 
-class StatusToggle extends Component {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-    isWatched: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired,
+function handleChange(event, { id, isWatched, dispatch }) {
+  event.preventDefault();
+
+  const movieProps = {
+    status: !isWatched,
+    movieId: id,
   };
 
-  handleChange(event) {
-    event.preventDefault();
-
-    const movieProps = {
-      status: !this.props.isWatched,
-      movieId: this.props.id,
-    };
-
-    // fire db updte
-    this.props.dispatch(updateMovieWatchStatus(movieProps));
-  }
-
-  render() {
-    const tabProp = this.props.isWatched && { tabIndex: -1 };
-
-    return (
-      <button
-        {...tabProp}
-        onClick={event => this.handleChange(event)}
-        className={`item__status ${this.props.isWatched
-          ? 'item__status--watched'
-          : 'item__status--unwatched'}`}
-      >
-        <span>✔</span>
-      </button>
-    );
-  }
+  // fire db updte
+  dispatch(updateMovieWatchStatus(movieProps));
 }
 
+function StatusToggle(props) {
+  const tabProp = props.isWatched && { tabIndex: -1 };
+
+  return (
+    <button
+      {...tabProp}
+      onClick={event => handleChange(event, props)}
+      className={`item__status ${props.isWatched
+        ? 'item__status--watched'
+        : 'item__status--unwatched'}`}
+    >
+      {/*
+        <span>✔</span>
+    */}
+      <span>
+        <img src="/images/tick.png" alt="" />
+      </span>
+    </button>
+  );
+}
+
+StatusToggle.propTypes = {
+  id: PropTypes.string.isRequired,
+  isWatched: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
+
 export default StatusToggle;
+
+// valid by IYIKON from the Noun Project
