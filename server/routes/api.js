@@ -19,7 +19,7 @@ router.use((req, res, next) => {
 // });
 
 router.post('/movie', (req, res) => {
-  fetch(`${OMDB_URL}?apikey=f369371&i=${req.body.imdbId}`)
+  fetch(`${OMDB_URL}?apikey=${process.env.OMDB_KEY}&i=${req.body.imdbId}`)
     .then(response => {
       if (response.status !== 200) {
         throw response;

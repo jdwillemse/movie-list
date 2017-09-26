@@ -1,11 +1,17 @@
 import firebase from 'firebase';
 
-import { firebaseConfig } from '../config';
-// import staticData from '../data-structure';
-
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  authDomain: 'movie-list-88564.firebaseapp.com',
+  databaseURL: 'https://movie-list-88564.firebaseio.com',
+  projectId: 'movie-list-88564',
+  storageBucket: '',
+};
 const fire = firebase.initializeApp(firebaseConfig);
 const databaseInstance = fire.database().ref('movies');
 
+// import staticData from '../data-structure';
 // quick way to push dummy data to firebase
 // staticData.map(item => {
 //   fire.database().ref('movies').push( item );
