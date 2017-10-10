@@ -1,21 +1,29 @@
 import firebase from 'firebase';
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
   authDomain: 'movie-list-88564.firebaseapp.com',
   databaseURL: 'https://movie-list-88564.firebaseio.com',
   projectId: 'movie-list-88564',
   storageBucket: '',
 };
+
 const fire = firebase.initializeApp(firebaseConfig);
 const databaseInstance = fire.database().ref('movies');
 
-// import staticData from '../data-structure';
 // quick way to push dummy data to firebase
-// staticData.map(item => {
-//   fire.database().ref('movies').push( item );
-// })
+// import staticData from '../data-structure';
+// staticData.map((item) => {
+//   const { imdbID, Title, Year, Plot } = item;
+//   const movieWithMeta = {
+//     imdbID,
+//     Title,
+//     Year,
+//     Plot,
+//     isWatched: true,
+//     addedAt: new Date().toString(),
+//   };
+//   fire.database().ref('movies').child(imdbID).set(movieWithMeta);
+// });
 
 // Actions
 const prefix = 'FIREBASE/';
@@ -47,13 +55,17 @@ export default function reducer(state = initialState, action) {
         ...initialState,
       };
 
-    case SUCCESS:
+    case SUCCESS: {
+      const moviesByDateAdded = action.payload.sort(
+        (a, b) => new Date(b.addedAt) - new Date(a.addedAt)
+      );
       return {
         ...state,
         loading: false,
         error: '',
-        movies: action.payload,
+        movies: moviesByDateAdded,
       };
+    }
 
     case SET_SUCCESS: {
       const movies = state.movies.map(item =>

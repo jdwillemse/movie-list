@@ -1,19 +1,9 @@
-Server Side Rendering with Create React App
+Movie library
 ===========================================
 
-This is the v2 version of my react app, checkout my article here: https://medium.com/@benlu/ssr-with-create-react-app-v2-1b8b520681d9
+This app listens for file changes in a dropbox folder where movie torrent files are added. The newly added file name is processed and the movie info is fetched from OMDBapi. This info is then saved to Firebase. A list of movies is then displayed along with whether they have been watched or not.
 
-Install
--------
-```bash
-npm install
-npm run build
-npm run start:server
-```
+Here is a [demo](https://movie-lib.herokuapp.com/).
 
-### Development
-This just runs create react app, its great!
-```bash
-npm start
-```
-
+###Purpose
+This project is not done or bug free and probably wont ever be. This serves as a to-do list app for me. In this build I was looking for a production-ready universal React starter with little setup. I tested [this appraoch](https://medium.com/@benlu/ssr-with-create-react-app-v2-1b8b520681d9), but found too many compromises so the search continues.

@@ -7,14 +7,13 @@ const path = require('path');
 
 require('babel-register')({
   ignore: /\/(build|node_modules)\//,
-  presets: ['env', 'react-app']
+  presets: ['env', 'react-app'],
 });
 
 // routes
-const index = require('./routes/index');
+const routes = require('./routes/index');
 const api = require('./routes/api');
 // const universalLoader = require('./universal');
-
 
 const app = express();
 
@@ -35,9 +34,9 @@ app.use(morgan('combined'));
 // Serve static assets
 app.use(express.static(path.resolve(__dirname, '../build')));
 
-app.use('/', index);
-
 app.use('/api', api);
+
+app.use('/', routes);
 
 // Always return the main index.html, so react-router render the route in the client
 // app.use('/', universalLoader)

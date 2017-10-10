@@ -33,7 +33,8 @@ export default class App extends Component {
         <div className="intro">
           <h1 className="intro__title">Movie library</h1>
           <p className="intro__help-text">
-            Double click movie to mark it as watched.
+            This is a list of movies that have passed through your dropbox and
+            the watched state of each.
           </p>
           <noscript>
             <p className="noscript__warning">
