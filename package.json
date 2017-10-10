@@ -1,7 +1,8 @@
 {
-  "name": "ssr-create-react-app-v2",
+  "name": "movie-list",
+  "title": "Universal React Movie Library",
+  "description": "Home movie library is generated based on files that are added to dropbox.",
   "version": "0.1.0",
-  "private": true,
   "url": "https://movie-lib.herokuapp.com/",
   "engines": {
     "node": "8.4.0"
