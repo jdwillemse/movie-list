@@ -1,14 +1,4 @@
-import firebase from 'firebase';
-
-const firebaseConfig = {
-  authDomain: 'movie-list-88564.firebaseapp.com',
-  databaseURL: 'https://movie-list-88564.firebaseio.com',
-  projectId: 'movie-list-88564',
-  storageBucket: '',
-};
-
-const fire = firebase.initializeApp(firebaseConfig);
-const databaseInstance = fire.database().ref('movies');
+import axios from 'axios';
 
 // quick way to push dummy data to firebase
 // import staticData from '../data-structure';
@@ -29,7 +19,7 @@ const databaseInstance = fire.database().ref('movies');
 const prefix = 'FIREBASE/';
 const SET = `${prefix}SET`;
 const GET = `${prefix}GET`;
-const SUCCESS = `${prefix}SUCCESS`;
+const GET_SUCCESS = `${prefix}GET_SUCCESS`;
 const SET_SUCCESS = `${prefix}SET_SUCCESS`;
 const FAIL = `${prefix}FAIL`;
 
@@ -40,9 +30,9 @@ const initialState = {
   movies: [],
 };
 
-function updateMovieWatchedStatus(item, { movieId, status }) {
-  return item.id === movieId
-    ? Object.assign({}, item, { isWatched: status })
+function updateMovieWatchedStatus(item, { movieId, isWatched }) {
+  return item.imdbID === movieId
+    ? Object.assign({}, item, { isWatched })
     : item;
 }
 
@@ -55,7 +45,7 @@ export default function reducer(state = initialState, action) {
         ...initialState,
       };
 
-    case SUCCESS: {
+    case GET_SUCCESS: {
       const moviesByDateAdded = action.payload.sort(
         (a, b) => new Date(b.addedAt) - new Date(a.addedAt)
       );
@@ -93,33 +83,26 @@ export default function reducer(state = initialState, action) {
 
 // Action creators
 export function getMovieList() {
-  const promise = databaseInstance
-    .once('value')
-    .then(snapshot => snapshot.val())
-    .then(data =>
-      Object.keys(data).map(key => Object.assign({}, data[key], { id: key }))
-    );
+  const promise = axios.get('/api/firebase').then(res => res.data);
 
   return {
-    types: [GET, SUCCESS, FAIL],
+    types: [GET, GET_SUCCESS, FAIL],
     promise,
   };
 }
 
+/**
+ * Post movie id and isWatched status to api and pass same info to reducer. This is done
+ * becasue firebase's update method does not respond with data.
+ * @param {object} object with movieId (string) and status (bool) props.
+ * @returns {promise}
+ */
 export function updateMovieWatchStatus({ movieId, status }) {
-  return dispatch => {
-    const updatedData = {
-      [`${movieId}/isWatched`]: status,
-    };
+  const postData = { movieId, isWatched: status };
+  const promise = axios.post('/api/firebase', postData).then(() => postData);
 
-    const promise = databaseInstance.update(updatedData).then(() => ({
-      movieId,
-      status,
-    }));
-
-    return dispatch({
-      types: [SET, SET_SUCCESS, FAIL],
-      promise,
-    });
+  return {
+    types: [SET, SET_SUCCESS, FAIL],
+    promise,
   };
 }

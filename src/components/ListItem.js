@@ -22,7 +22,7 @@ class ListItem extends Component {
           : 'list__item--unwatched'}`}
       >
         <StatusToggle
-          id={data.id}
+          id={data.imdbID}
           isWatched={!!data.isWatched}
           dispatch={this.props.dispatch}
         />
